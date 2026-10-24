@@ -1,0 +1,46 @@
+
+version: "2"
+
+run:
+  timeout: 5m
+
+linters:
+  # 標準のリンターをベースに、必要なものを追加する
+  default: standard
+  enable:
+    - bodyclose
+    - copyloopvar
+    - errcheck
+    - errorlint
+    - gosec
+    - misspell
+    - unconvert
+    - unparam
+
+  settings:
+    govet:
+      enable:
+        - shadow
+
+    errcheck:
+      check-type-assertions: true
+      check-blank: true
+
+    staticcheck:
+      checks:
+        - all
+
+  exclusions:
+    # 生成コードは解析対象から除外する
+    generated: strict
+    # 一部のルールについて、テストコードでの指摘を除外する
+    rules:
+      - path: _test\.go
+        linters:
+          - errcheck
+          - gosec
+
+formatters:
+  enable:
+    - gofmt
+    - goimports
